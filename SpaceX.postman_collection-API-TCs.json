@@ -1,0 +1,86 @@
+{
+	"info": {
+		"_postman_id": "2bb4d5f7-2ee2-43ea-ab46-6e38fb2959e3",
+		"name": "SpaceX",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Public API -valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"     pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Id is not generated\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"id\");",
+							"});",
+							"",
+							"pm.test(\"Success does not have true returned\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Details in response is incorrect\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.details).to.eql(\"SpaceX launches the second of two next generation satellites for SiriusXM from SLC-40, Cape Canaveral Space Force Station. The spacecraft will be delivered into a sub-synchronous geostationary transfer orbit and will replace XM-4 in geostationary orbit. The booster for this mission will land on an ASDS.\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/launches/latest",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"launches",
+						"latest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Public API -invalid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is not as expected : \"+pm.response.code, function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Response body is not as expected\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Not Found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/launches/latest1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"launches",
+						"latest1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
